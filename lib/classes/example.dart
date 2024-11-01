@@ -2,6 +2,8 @@
 // general purpose programming language made by google 
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import './request.dart';
 
 // MORE ABOUT WIDGETS! 
 // 2 TYPES:
@@ -70,7 +72,46 @@ class _StatefulExampleWidgetState extends State<StatefulExampleWidget> {
 
   Widget buildRow(String value) {
     return ListTile(
-      title: Text(value)
+      title: Text(
+        value,
+        style: textStyle,
+      ),
+      onTap: () {
+        Fluttertoast.showToast(
+          msg: "YOU TOUCHED A TILE! $value",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1
+        );
+
+        // how to navigate 
+        Navigator.push(
+          context, 
+          /*
+          MaterialPageRoute(
+            builder: (context) => DetailViewWidget(externalArg: value) 
+          )*/
+          MaterialPageRoute(
+            builder: (context) => const RequestDetailWidget()
+          )
+        );
+      },
+    );
+  }
+}
+
+class DetailViewWidget extends StatelessWidget {
+  const DetailViewWidget({super.key, required this.externalArg});
+
+  final String externalArg;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("DETAIL VIEW")),
+      body: Center(
+        child: Text("SOME INFO TO DISPLAY: $externalArg")
+      )
     );
   }
 }
